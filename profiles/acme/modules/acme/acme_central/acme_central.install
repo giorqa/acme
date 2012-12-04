@@ -1,0 +1,24 @@
+<?php
+/*
+ * Add all the required install profiles.
+ *
+ * This file is only required for admin tasks, so adding this code here
+ * doesn't add any user-noticable overhead.
+ */
+
+// Set the max execution time to 15 minutes.  DO NOT REMOVE!
+ini_set('max_execution_time', 900);
+ini_set('memory_limit', '256M');
+
+if (!preg_match('/install.php/', request_uri())) {
+  $path = drupal_get_path('module', 'acme_central') . '/install_scripts';
+  $contents = array_slice(scandir($path), 2);
+
+  foreach ($contents as $file) {
+    $file_path = $path . '/' . $file;
+
+    if (preg_match('/acme_central_install_script_[0-9]+\.inc$/', $file) && is_file($file_path)) {
+      require_once($file_path);
+    }
+  }
+}

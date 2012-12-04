@@ -1,0 +1,226 @@
+/**
+* Add to cart popin.
+*/
+div.commerce_add_to_cart_confirmation_overlay {
+  background: transparent url('../images/bg_add_to_cart_overlay.png') left top;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 200;
+}
+
+div.messages.commerce-add-to-cart-confirmation {
+  background-color: #d6e5ec;
+  border-color: #6bb0cb;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 2px 15px #57595A;
+  -webkit-box-shadow: 0 2px 15px #57595A;
+  box-shadow: 0 2px 15px #57595A;
+  filter: progid:DXImageTransform.Microsoft.Shadow(color = '#57595A', direction = '180', strength = '5');
+  overflow: hidden;
+  padding: 0;
+}
+
+.commerce-add-to-cart-confirmation {
+  background-color: white;
+  color: #aeaaa5;
+  margin-left: -30% !important; /* width/2 */
+  position: absolute;
+  left: 50%;
+  width: 60%;
+  z-index: 201;
+}
+
+.commerce-add-to-cart-confirmation .view-content {
+  margin-left: 0;
+}
+
+.commerce-add-to-cart-confirmation .placeholder {
+  background: transparent url('../images/bg_add_to_cart.png') left center no-repeat;
+  font-style: normal;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-left: 35px;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper {
+  background-color: #e4eef3;
+  float: right;
+  padding: 40px 30px;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper:after {
+  display: block;
+  clear: both;
+  content: ".";
+  height: 0;
+  visibility: hidden;
+}
+
+.commerce-add-to-cart-confirmation .added-product-title {
+  color: #2698f2;
+  float: left;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 30px 10px 20px;
+  text-transform: uppercase;
+  width: 180px;
+}
+
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display {
+  width: 200px;
+}
+/*
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display img {
+  position: absolute;
+  left: 20px;
+  top: 40px;
+}
+*/
+
+
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display .view-content {
+  padding: 15px;
+  padding-right: 10px;
+}
+
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display .views-field-commerce-product h2 {
+  display: none;
+}
+
+.commerce-add-to-cart-confirmation .commerce-product-title {
+  clear: both;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #575757;
+  text-align: left;
+}
+
+.commerce-add-to-cart-confirmation-close {
+  background: url('../images/btn_add-to-cart-close.png') no-repeat 0 0;
+  width: 18px;
+  height: 17px;
+  display: block;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button .commerce-add-to-cart-confirmation-close {
+  position: static;
+  background: none;
+  white-space: nowrap;
+  width: auto;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button.checkout {
+  background-color: #2698F2;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button.continue {
+  background-color: #b3b3b3;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button.checkout:hover,
+.commerce-add-to-cart-confirmation .button-wrapper .button.continue:hover {
+  cursor: pointer;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper .button a {
+  font-weight: bold;
+  color: white;
+}
+
+.commerce-add-to-cart-confirmation .field-name-field-images img {
+  border: #D7D7D7 solid 1px;
+}
+
+.commerce-add-to-cart-confirmation .views-field-title,
+.commerce-add-to-cart-confirmation .views-field-field-images {
+  text-align: left; /* LTR */
+}
+
+.commerce-product-sku .commerce-product-sku-label,
+.commerce-add-to-cart-confirmation .views-label-quantity {
+  font-weight: bold;
+}
+
+.commerce-add-to-cart-confirmation .commerce-product-sku-label,
+.commerce-add-to-cart-confirmation .views-label-commerce-price,
+.commerce-add-to-cart-confirmation .views-label-quantity,
+.commerce-add-to-cart-confirmation .field-label {
+  padding-right: 5px;
+}
+
+.commerce-add-to-cart-confirmation .field,
+.commerce-add-to-cart-confirmation .commerce-product-sku {
+  clear: both;
+  color: #878380;
+  font-size: 12px;
+  /*margin-right: 20px;*/ /* LTR */
+}
+
+.commerce-add-to-cart-confirmation .views-field-commerce-price {
+  clear: both;
+  font-size: 20px;
+  font-weight: 300;
+  margin-top: 25px;
+}
+
+.commerce-add-to-cart-confirmation .views-field-commerce-price .field {
+  color: #2698F2;
+  display: inline;
+  font-size: 20px;
+  float: right;
+}
+
+.commerce-add-to-cart-confirmation .field:after,
+.entity-commerce-product:after {
+  content: none;
+}
+
+.commerce-add-to-cart-confirmation .button-wrapper {
+  float: none;
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+.commerce-add-to-cart-confirmation .field-name-field-images {
+  clear: left;
+  float: left;
+}
+
+.commerce-add-to-cart-confirmation .added-product-title {
+  padding-right: 10px;
+  width: 310px;
+}
+
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display {
+  width: 340px;
+}
+
+.commerce-add-to-cart-confirmation .view-confirm-message-product-display .view-content {
+  margin-left: 130px;
+  padding-top: 0px;
+}
+
+.commerce-add-to-cart-confirmation .view-content .field-content .field {
+  text-align: left;
+}

@@ -1,0 +1,122 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+
+/**
+ * Implementation of hook_menu
+ */
+function acme_menu_menu() {
+  $items = array();
+  
+  /* ACME Main menu links */
+  $items['products'] = array(
+    'title'            => t('Products'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['shows'] = array(
+    'title'            => t('Shows'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['videos'] = array(
+    'title'            => t('Videos'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['schedule'] = array(
+    'title'            => t('Schedule'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  
+  
+  /* ACME Footer menu links */
+  $items['contact-us'] = array(
+    'title'            => t('Contact Us'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['corporate-info'] = array(
+    'title'            => t('corporate-info'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['jobs'] = array(
+    'title'            => t('jobs'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['privacy'] = array(
+    'title'            => t('privacy'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['terms-of-use'] = array(
+    'title'            => t('corporate-info'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['advertise'] = array(
+    'title'            => t('jobs'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['technical-support'] = array(
+    'title'            => t('Technical Support'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  
+  
+  /* ACME Top menu links */
+  $items['shop'] = array(
+    'title'            => t('Shop'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['support'] = array(
+    'title'            => t('Support'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['watch-tv'] = array(
+    'title'            => t('Watch TV'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  $items['about'] = array(
+    'title'            => t('About'),
+    'page callback'    => 'acme_menu_test_page',
+    'access callback'  => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+  
+  
+  return $items;
+}
+
+/**
+ * Just a simple page callback for temp pages
+ */
+function acme_menu_test_page() {
+  
+  return views_embed_view('acme_episode_on_tonight','block');
+}

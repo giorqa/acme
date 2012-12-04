@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * Code for the ACME Poll feature.
+ */
+
+include_once 'acme_poll.features.inc';
+
+
+/**
+ * Implementation of hook_block_info()
+ */
+function acme_poll_block_info() {
+  $blocks = array();
+  
+  $blocks['acme_poll_group_poll'] = array(
+    'info'  => t('ACME Poll: List of Polls'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+
+/**
+ * Implementation of hook_block_view()
+ */
+function acme_poll_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case 'acme_poll_group_poll':
+      if(module_exists('acme_profile_base')) {
+        $interests = acme_profile_base_get_interest();
+        $interests = implode('+', $interests);
+        if($interests == '') {
+          // interests: make use of the default argument handling
+          $interests = NULL;
+        }
+      }
+      
+      // group id: make use of default argument handling
+      $group_nid = NULL;
+      
+      $block['subject'] = '';
+      $block['content'] = views_embed_view(
+        'acme_poll',
+        'block',
+        $group_nid,
+        $interests
+      );
+      
+      break;
+  }
+  
+  return $block;
+}

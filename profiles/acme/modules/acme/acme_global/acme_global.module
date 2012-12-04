@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the acme_global feature.
+ */
+
+include_once 'acme_global.features.inc';

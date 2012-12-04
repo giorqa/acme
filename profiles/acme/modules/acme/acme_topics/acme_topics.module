@@ -1,0 +1,49 @@
+<?php
+/**
+ * @file
+ * Code for the ACME Topics feature.
+ */
+
+include_once 'acme_topics.features.inc';
+
+
+/**
+ * Implementation of hook_block_info()
+ */
+function acme_topics_block_info() {
+  $blocks = array();
+  
+  $blocks['acme_topic_homepage_topic'] = array(
+    'info'  => t('ACME Topic: News Article on Homepage'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+
+/**
+ * Implementation of hook_block_view()
+ */
+function acme_topics_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case 'acme_topic_homepage_topic':
+      if(module_exists('acme_profile_base')) {
+        $interests = acme_profile_base_get_interest();
+        $interests = implode('+', $interests);
+        if($interests == '') {
+          // interests: make use of the default argument handling
+          $interests = NULL;
+        }
+      }
+      
+      $block['subject'] = '';
+      $block['content'] = views_embed_view('acme_topics_front_page', 'block', $interests);
+      
+      break;
+  }
+  
+  return $block;
+}

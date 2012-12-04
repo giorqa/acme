@@ -1,0 +1,156 @@
+#group-content {
+	padding: 10px;
+}
+
+#group-content h2 {
+	font-size: 22px;
+	padding: 0 5px;
+}
+
+#group-content .region {
+	padding: 10px;
+}
+
+#block-acme-groups-acme-groups-group-count h1,
+#block-acme-poll-acme-poll-group-poll h2 a {
+	font-family: Museo, sans-serif;
+	font-weight: bold;
+	color: #000;
+	margin-top: 0;
+}
+
+/* Group Top */
+
+#group-top .group-col {
+	float: left;
+}
+
+#group-top-middle .media-youtube-video iframe {
+	width: 100%;
+}
+
+#group-top-right .region {
+	border: 1px solid #ccc;
+	background-color: #F2F6F7;
+}
+
+#group-top-right .region .block .content {
+	background-color: #F2F6F7;
+}
+
+/* Group Middle */
+#group-middle {
+	clear:both;
+}
+
+#group-middle div {
+	height: 100px;
+	background-color: #efefef;
+	margin: 20px 0;
+}
+
+/* Group Bottom */
+
+#group-bottom .group-col {
+	float: left;
+}
+
+#block-acme-poll-acme-poll-group-poll {
+	border-right: 1px solid #efefef;
+}
+
+/* Group Contributors */
+
+#block-acme-groups-acme-groups-group-count {
+	padding: 0;
+}
+
+#block-acme-groups-acme-groups-group-count .content {
+	margin: 0;
+}
+
+#block-acme-groups-acme-groups-group-count h1 {
+	margin: 0;
+	background-color: #B5C8CE;
+	display: inline-block;
+	padding: 0 5px;
+	font-size: 22px;
+}
+
+#block-views-acme-group-contributors-block-1 .content {
+	margin-top: 0;
+}
+
+#block-views-acme-group-contributors-block-1 .views-row {
+	float: left;
+	margin: 10px 20px 10px 0;
+	border: 1px solid #ccc;
+}
+
+#block-views-acme-group-contributors-block-1 .views-row:nth-child(4n+4) {
+	margin-right: 0;
+}
+
+#block-views-acme-group-contributors-block-1 .views-row .user-picture {
+	padding: 3px;
+	background-color: #efefef;
+	
+}
+
+#block-views-acme-group-contributors-block-1 .views-row img {
+	margin-bottom: 0;
+	vertical-align: bottom;
+}
+
+/* Latest Episode */
+#group-content h2 {
+	margin: 0;
+}
+
+/* Active Conversations */
+
+.view-acme-discussion .views-row {
+	position: relative;
+}
+
+.view-acme-discussion .comment-link {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.view-acme-discussion .comment-link {
+	background-color: #000;
+}
+
+.view-acme-discussion .comment-link a {
+	color: #fff;
+}
+
+.view-acme-discussion .comment-link li.comment-add a {
+	padding: 0;
+}
+
+.view-acme-discussion .image {
+	float: left;
+	width: 100px;
+	height: 100px;
+	background-color: #efefef;
+}
+
+.view-acme-discussion .info {
+	margin-left: 110px;
+}
+
+/* Map */
+#block-acme-profile-base-acme-profile-base-map {
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+}
+
+#block-acme-profile-base-acme-profile-base-map img {
+	border: 1px solid #ccc;
+}
+
+

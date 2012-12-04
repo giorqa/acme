@@ -1,0 +1,15 @@
+name = ACME Topics
+description = Extends Drupal Commons Topics functionality
+core = 7.x
+package = ACME
+php = 5.2.4
+version = 7.x-1.0
+project = acme_topics
+dependencies[] = features
+dependencies[] = taxonomy
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[field_base][] = field_article_interests
+features[field_instance][] = node-article-field_article_interests
+features[views_view][] = acme_topics_front_page

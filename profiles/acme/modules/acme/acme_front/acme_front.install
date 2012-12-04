@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * change the homepage link
+ */
+function acme_front_update_7000() {
+  
+  // home page now is using panel
+  variable_set('site_frontpage', 'homepage'); 
+}

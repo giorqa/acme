@@ -1,0 +1,10 @@
+name = "ACME Central"
+description = "Provides a manner to supply updates"
+
+core = "7.x"
+php = "5"
+
+version = "7.x-1.0"
+package = "ACME"
+
+dependencies[] = features

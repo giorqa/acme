@@ -1,0 +1,181 @@
+<?php
+/**
+ * @file
+ * Code for the ACME Groups feature.
+ */
+
+include_once 'acme_groups.features.inc';
+
+/**
+ * Implementation of hook_block_info()
+ */
+function acme_groups_block_info() {
+  $blocks = array();
+  
+  $blocks['acme_groups_group_admin'] = array(
+    'info'  => t('ACME Groups: Group Organizers block wrapper'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  $blocks['acme_groups_group_count'] = array(
+    'info'  => t('ACME Groups: Group count block wrapper'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+
+/**
+ * Implementation of hook_block_view()
+ */
+function acme_groups_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case 'acme_groups_group_admin':
+      $on_group_page = _acme_gropus_on_group_page();
+      
+      if(!$on_group_page) {
+        return $block;
+      }
+      
+      $nid   = arg(1);
+      $group = node_load($nid);
+      
+      $block['subject'] = t('Organizers');
+      $block['content'] = _acme_groups_display_group_admin($group);
+      
+      break;
+    case 'acme_groups_group_count':
+      
+      $on_group_page = _acme_gropus_on_group_page();
+      if(!$on_group_page) {
+        return $block;
+      }
+      
+      $nid = arg(1);
+      
+      $block['subject'] = '';
+      $block['content'] = _acme_groups_group_count_block_content($nid);
+      
+      break;
+  }
+  
+  return $block;
+}
+
+
+/**
+ * Retrieve the HTML formatted content of acme_groups_group_count block
+ * @param $nid
+ *    Group nid
+ * @return
+ *    HTML formatted block content
+ */
+function _acme_groups_group_count_block_content($nid) {
+  
+  $count = _acme_group_count_group_members($nid);
+  $text  = t('Group Contributors');
+  
+  $html =<<<HTML
+    <h1>$text ( $count ) </h1>
+HTML;
+
+  return $html;
+}
+
+
+/**
+ * NOTE: This is temporary solution. My prefered solution would be to expose
+ * og_roles and og_users_roles as Views filters.
+ * @param $group
+ *    A group node. The current group node that is being viewed.
+ * @return
+ *    HTML formatted view of group organizers(group admins)
+ */
+function _acme_groups_display_group_admin($group) {
+  
+  $display      = '';
+  $group_admins = array();
+  
+  $query = db_select('og_users_roles', 'ogur');
+  $query->innerJoin('og_role', 'ogr', 'ogur.rid = ogr.rid');
+  $query->innerJoin('users', 'u', 'ogur.uid = u.uid');
+  
+  $query->fields('ogur', array('uid'))
+    ->condition('ogur.group_type', 'node', '=')
+    ->condition('ogr.name', OG_ADMINISTRATOR_ROLE, '=')
+    ->condition('ogur.gid', $group->nid, '=')
+    ->condition('u.status', 1, '=');
+  
+  $result = $query->execute();
+  
+  while($record = $result->fetchAssoc()) {
+    $group_admins[] = $record['uid'];
+  }
+  
+  if(!empty($group_admins)) {
+    
+    $group_admins = implode('+', $group_admins);
+    $display = views_embed_view(
+      'acme_group_organizers',
+      'block_1',
+      $group->nid,
+      $group_admins
+    );
+  }
+  
+  return $display;
+}
+
+/**
+ * Retrieve group count given the group nid
+ * @param $gid
+ *    Group nid
+ * @return
+ *    The number of members
+ */
+function _acme_group_count_group_members($gid) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    
+    // Type can be "node" or "user"
+    ->propertyCondition('entity_type', 'user', '=')
+    
+    // I don't want to include the user 1
+    ->propertyCondition('etid', 1, '!=')
+    
+    // This is the group ID
+    ->propertyCondition('gid', $gid, '=')
+    
+    // Get only the active members
+    ->propertyCondition('state', OG_STATE_ACTIVE, '=')
+    ->count()
+    ->execute();
+    
+  return $result;
+}
+
+
+/**
+ * Tells whether you are on a group node page.
+ * @return
+ *   TRUE, if you are on a group page, FALSE otherwise
+ */
+function _acme_gropus_on_group_page() {
+  $arg1 = arg(1);
+  $arg2 = arg(2);
+  
+  $on_node_page = (arg(0) == 'node') && is_numeric($arg1) && empty($arg2);
+  
+  /* must be on node/* */
+  if(!$on_node_page) {
+    return FALSE;
+  }
+  // todo: here
+  $node = node_load($arg1);
+  
+  return og_is_group('node', $node);
+}

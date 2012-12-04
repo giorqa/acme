@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Code for the ACME Front feature.
+ */
+
+include_once 'acme_front.features.inc';
+
+
+/**
+ * Implementation of hook_block_info_alter
+ */
+function acme_front_block_info_alter(&$blocks, $theme, $code_blocks) {
+  
+  /* Disable the following blocks. Some of these blocks will be displayed using
+  Context. */
+  
+  $blocks['system']['powered-by']['status'] = 0;
+  $blocks['system']['navigation']['status'] = 0;
+  $blocks['user']['login']['status']        = 0;
+  $blocks['search']['form']['status']       = 0;
+}

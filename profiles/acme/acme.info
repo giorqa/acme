@@ -1,0 +1,123 @@
+name = ACME
+description = Spark + Drupal Commons + Kickstart
+version = "7.x-1.0-dev"
+core = 7.x
+php = 5.3
+
+; The distribution_name property is used in the installer and other places as
+; a label for the software being installed.
+distribution_name = Acme
+
+; Required modules (Core)
+; Copy/pasted from standard.info
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = rdf
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = taxonomy
+dependencies[] = poll
+
+
+; Required modules (Contrib)
+dependencies[] = entity
+dependencies[] = fape
+dependencies[] = jquery_update
+dependencies[] = json2
+dependencies[] = libraries
+dependencies[] = module_filter
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = panels_ipe
+dependencies[] = features
+dependencies[] = strongarm
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = views_bulk_operations
+dependencies[] = entityreference
+dependencies[] = entityreference_prepopulate
+dependencies[] = token
+dependencies[] = message
+dependencies[] = flag
+dependencies[] = og
+dependencies[] = og_ui
+dependencies[] = og_access
+dependencies[] = panelizer
+dependencies[] = radioactivity
+dependencies[] = views_content
+dependencies[] = flexslider
+dependencies[] = flexslider_views
+dependencies[] = file_entity
+dependencies[] = media
+dependencies[] = media_internet
+dependencies[] = media_youtube
+dependencies[] = date_api
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = date_views
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = addressfield
+dependencies[] = og_context
+dependencies[] = context_og
+dependencies[] = panels_node
+dependencies[] = addressfield_staticmap
+dependencies[] = pathauto
+dependencies[] = superfish
+
+; for the latest drupal_commons - hide for now
+;dependencies[] = message_notify
+;dependencies[] = message_subscribe
+;dependencies[] = timeago
+
+
+; Required projects (Sparkish)
+dependencies[] = filter_true_wysiwyg
+dependencies[] = aloha
+dependencies[] = caption
+dependencies[] = edit
+dependencies[] = gridbuilder
+dependencies[] = admin_icons
+dependencies[] = layout
+dependencies[] = navbar
+
+
+; Required projects (Drupal Commons)
+dependencies[] = commons_follow
+dependencies[] = commons_topics
+dependencies[] = commons_body
+dependencies[] = commons_groups
+dependencies[] = commons_group_privacy
+dependencies[] = commons_activity_streams
+dependencies[] = commons_activity_streams_groups
+dependencies[] = commons_profile_base
+
+
+; Required projects (ACME)
+dependencies[] = acme_central
+dependencies[] = acme_menu
+dependencies[] = acme_banner
+dependencies[] = acme_episode
+dependencies[] = acme_groups
+dependencies[] = acme_topics
+dependencies[] = acme_profile_base
+dependencies[] = acme_discussion
+dependencies[] = acme_front
+dependencies[] = acme_poll
+dependencies[] = acme_global
+
+
+
+

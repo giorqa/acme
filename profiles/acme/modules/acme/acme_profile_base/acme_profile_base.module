@@ -1,0 +1,128 @@
+<?php
+/**
+ * @file
+ * Code for the ACME Profile Base feature.
+ */
+
+include_once 'acme_profile_base.features.inc';
+
+/**
+ * Implementation of hook_block_info()
+ */
+function acme_profile_base_block_info() {
+  $blocks = array();
+  
+  $blocks['acme_profile_base_map'] = array(
+    'info'  => t('ACME Profile Base: Static Map'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+
+/**
+ * Implementation of hook_block_view()
+ */
+function acme_profile_base_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case 'acme_profile_base_map':
+      global $user;
+      
+      if($user->uid == 0) {
+        return $block;
+      }
+      
+      $block['subject'] = '';
+      $block['content'] = _acme_profile_base_map_block_content();
+      
+      break;
+  }
+  
+  return $block;
+}
+
+
+/**
+ * Retrieves HTML formatted content of acme_profile_base_map block
+ */
+function _acme_profile_base_map_block_content() {
+  
+  $address          = acme_profile_base_get_address();
+  $friendly_address = addressfield_staticmap_clean_address($address);
+  
+  // @see addressfield_staticmap_block_view
+  $index = 0;
+  
+  // Fetch configuration variables
+  $api = variable_get('addressfield_staticmap_api_' . $index, 'google_maps');
+  
+  // Configure base settings
+  $settings = array(
+    'zoom'    => variable_get('addressfield_staticmap_gmap_zoom_' . $index, 14),
+    'size'    => variable_get('addressfield_staticmap_gmap_size_' . $index, '400x400'),
+    'maptype' => variable_get('addressfield_staticmap_gmap_type_' . $index, 'roadmap'),
+    'index'   => $index,
+  );
+  
+  $settings['icon_url'] = variable_get('addressfield_staticmap_gmap_icon_url_' . $index, '');
+  $settings['icon_url'] = empty($settings['icon_url']) ? 'color:green' : 'icon:' . $settings['icon_url'];
+  
+  $map = _addressfield_static_map_render_google_maps_image($friendly_address, $settings);
+  
+  return $map;
+}
+
+
+/**
+ * Retrieve the user interests.
+ * @param $account
+ *    User object
+ * @return
+ *    An array of user interests
+ */
+function acme_profile_base_get_address($account = NULL) {
+  global $user;
+  
+  if(empty($account)) {
+    $account = $user;
+  }
+  
+  $account = user_load($account->uid);
+  $address = array();
+  
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $address = $wrapper->field_user_location->value();
+
+  return $address;
+}
+
+
+/**
+ * Retrieve the user interests.
+ * @param $account
+ *    User object
+ * @return
+ *    An array of user interests
+ */
+function acme_profile_base_get_interest($account = NULL) {
+  global $user;
+  
+  if(empty($account)) {
+    $account = $user;
+  }
+  
+  $account   = user_load($account->uid);
+  $interests = array();
+ 
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $values  = $wrapper->field_user_interests->value();
+  
+  foreach($values as $k => $value) {
+    $interests[] = $value->tid;
+  }
+ 
+  return $interests;
+}
