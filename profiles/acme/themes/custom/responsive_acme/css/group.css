@@ -57,6 +57,7 @@
 
 #block-acme-poll-acme-poll-group-poll {
 	border-right: 1px solid #efefef;
+	padding-right: 10px;
 }
 
 /* Group Contributors */
@@ -155,3 +156,7 @@
 }
 
 
+/** Pool **/
+.poll .vote-form .choices {
+	margin: 5px;
+}
