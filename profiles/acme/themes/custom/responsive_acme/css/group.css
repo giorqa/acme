@@ -15,7 +15,7 @@
 #block-acme-poll-acme-poll-group-poll h2 a {
 	font-family: Museo, sans-serif;
 	font-weight: bold;
-	color: #000;
+	color: inherit;
 	margin-top: 0;
 }
 
@@ -30,7 +30,6 @@
 }
 
 #group-top-right .region {
-	border: 1px solid #ccc;
 	background-color: #F2F6F7;
 }
 
@@ -57,7 +56,7 @@
 
 #block-acme-poll-acme-poll-group-poll {
 	border-right: 1px solid #efefef;
-	padding-right: 10px;
+	padding-right: 20px;
 }
 
 /* Group Contributors */
@@ -82,11 +81,16 @@
 	margin-top: 0;
 }
 
-#block-acme-groups-acme-groups-group-admin .views-row,
-#block-views-acme-group-contributors-block-1 .views-row {
+#block-views-acme-group-contributors-block-1 .views-row,
+#block-acme-groups-acme-groups-group-admin .views-row {
 	float: left;
-	margin: 10px;
+	width: 20%;
+	margin: 2% 4% 2% 0;
 	border: 1px solid #ccc;
+}
+
+#block-views-acme-group-contributors-block-1 .views-row:nth-child(4n+4) {
+	margin-right: 0;
 }
 
 #block-views-acme-group-contributors-block-1 .views-row .user-picture {
@@ -100,6 +104,7 @@
 	vertical-align: bottom;
 }
 
+/** Group Managers **/
 #block-acme-groups-acme-groups-group-admin {
 	clear: both;
 }
@@ -116,11 +121,9 @@
 }
 
 .view-acme-discussion .comment-link {
-	position: absolute;
-	top: 0;
-	right: 0;
+	float: right;
+	margin: 0 0 0 10px;
 }
-
 .view-acme-discussion .comment-link {
 	background-color: #000;
 }
@@ -156,7 +159,28 @@
 }
 
 
-/** Pool **/
-.poll .vote-form .choices {
-	margin: 5px;
+/** Responsive Deisgn Break Points **/
+
+@media all and (max-width: 760px) {
+	#group-top-right {
+		display: none;
+	}
+
+	#group-top-middle,
+	#group-top-left {
+		width: 100%;
+	}
+
+	#group-middle {
+		float: none;
+	}
+}
+
+
+@media all and (max-width: 400px) {
+ #group-bottom-left,
+ #group-bottom-right{
+ 	width: 100%;
+ 	float: none;
+ } 
 }
