@@ -2013,6 +2013,10 @@ box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 0 5px rgba(228,228,228,.45);
   background-image: linear-gradient(top, #111 0%, #333 100%);
 }
 
+.region-header .menu-acme-main li li.active-trail a{
+  background: black;
+}
+
 .sf-menu.sf-style-default li li  {
   background: #333;
 }
