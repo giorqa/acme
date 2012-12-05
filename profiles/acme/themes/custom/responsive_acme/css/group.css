@@ -81,14 +81,11 @@
 	margin-top: 0;
 }
 
+#block-acme-groups-acme-groups-group-admin .views-row,
 #block-views-acme-group-contributors-block-1 .views-row {
 	float: left;
-	margin: 10px 20px 10px 0;
+	margin: 10px;
 	border: 1px solid #ccc;
-}
-
-#block-views-acme-group-contributors-block-1 .views-row:nth-child(4n+4) {
-	margin-right: 0;
 }
 
 #block-views-acme-group-contributors-block-1 .views-row .user-picture {
@@ -100,6 +97,10 @@
 #block-views-acme-group-contributors-block-1 .views-row img {
 	margin-bottom: 0;
 	vertical-align: bottom;
+}
+
+#block-acme-groups-acme-groups-group-admin {
+	clear: both;
 }
 
 /* Latest Episode */
