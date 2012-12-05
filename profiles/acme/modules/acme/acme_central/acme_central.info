@@ -1,5 +1,5 @@
 name = "ACME Central"
-description = "Provides a manner to supply updates"
+description = "Provides a manner to supply updates "
 
 core = "7.x"
 php = "5"
