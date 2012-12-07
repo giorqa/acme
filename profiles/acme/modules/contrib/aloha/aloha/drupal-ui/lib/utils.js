@@ -2,6 +2,29 @@ define(['jquery', 'jqueryui'], function ($) {
   'use strict';
   var Utils = {
 
+    /**
+     * Wraps an element such that a label is displayed alongside it.
+     *
+     * Contrary to tooltips, a label is always visible and takes up
+     * place in the toolbar.
+     *
+     * The label will wrap the given element to make an implicit
+     * association between label and element (click on the label will
+     * give focus to a wrapped input element for example).
+     *
+     * @param {string} labelText
+     *       The already internationalized text the label should contain.
+     * @param {!jQuery} element
+     *       Any element to wrap.
+     * @return {!jQuery}
+     *       A new label element that wraps the given element.
+     */
+    wrapWithLabel: function(labelText, element) {
+      return $('<label>', {'class': 'aloha-ui-label'})
+        .append($('<span>', {'class': 'aloha-ui-label-text', 'text': labelText}))
+        .append(element);
+    },
+
     buttonDataIconsMapping: {
       'link': '&#xe002;',
       'unlink': '&#xe002;',
@@ -35,10 +58,12 @@ define(['jquery', 'jqueryui'], function ($) {
       'imgAlignLeft': '&#x22;',
       'imgAlignRight': '&#x23;',
       'imgAlignCenter': '&#x24;',
+      // 'imageAlignNone':
       // image plug-in
       'image-insert': '&#xe03b;',
       'image-align-left': '&#x22;',
-      'image-align-right': '&#x23;'
+      'image-align-right': '&#x23;',
+      'image-align-none': '&#x24;'
     },
 
     // Source: http://stackoverflow.com/a/9609450.
@@ -107,9 +132,7 @@ define(['jquery', 'jqueryui'], function ($) {
             .map(function (c) { return (!imgPlugin) ? 'aloha-icon-' + c : ' aloha-' + c; })
             .join(' ');
           primaryIcon
-            .removeClass('ui-icon')
-            .removeClass('aloha-icon')
-            .removeClass(removeClassNames)
+            .removeClass('ui-icon aloha-icon ' + removeClassNames)
             .addClass('spark-icon')
             .attr('data-html-tag', className)
             .attr('data-icon', Utils.getDataIconForClassName(className));

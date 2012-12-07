@@ -3,7 +3,7 @@
  * A simple interface to interact with Aloha Editor.
  */
 
-(function ($, Drupal, Aloha, window, document, undefined) {
+(function ($, Drupal, Aloha) {
 
 "use strict";
 
@@ -80,36 +80,28 @@ Drupal.aloha = {
    *   The editable to which Aloha Editor should be applied. Can be a <textarea>
    *   or any HTML tag that contains HTML that should be edited (e.g. <div>,
    *   <article>, etc.) Should have a data-allowed-tags attribute (see README).
-   * @param allowedTags
-   *   An optional allowedTags string, which contains a comma-separated list of
-   *   allowed HTML tags. E.g.: "br,p" or "br,p,strong,em,h1,h2,h3,blockquote".
+   * @param format
+   *   The format object of the selected text format. The following properties
+   *   are used:
+   *   - class: Class to add to the editable while this format is active.
    */
-  attach: function ($editable, allowedTags) {
-    var id = $editable.attr('id');
-    // If no ID is set on this editable, then generate one.
-    if (typeof id === 'undefined' || id === '') {
-      id = 'aloha-' + new Date().getTime();
-      $editable.attr('id', id);
-    }
+  attach: function ($editable, format) {
+    $editable.addClass('aloha-attached');
+    Drupal.aloha._ensureID($editable);
+    Drupal.aloha._ensureNonFormElement($editable);
+    var $alohaEditable = Drupal.aloha._getAlohaEditable($editable);
+    var id = $alohaEditable.attr('id');
 
-    if (allowedTags !== false) {
-      if (typeof allowedTags === 'undefined') {
-        allowedTags = '';
-      }
-      $editable.attr('data-allowed-tags', allowedTags);
-    }
+    Drupal.aloha._setFormatClass($alohaEditable, format.className);
 
     Aloha.jQuery('#' + id).aloha();
-
-    // Work-around for AE bug. See:
-    //  - http://drupal.org/node/1791758
-    //  - https://github.com/alohaeditor/Aloha-Editor/issues/716
-    $('#' + id + '-aloha.aloha-textarea').css('width', '');
 
     // Trigger 'aloha-content-changed' event whenever content has changed.
     Aloha.bind('aloha-smart-content-changed.aloha', function (event, ae) {
       if (ae.editable.obj[0].id === id && ae.triggerType !== 'blur') {
-        $editable.trigger('aloha-content-changed');
+        // Listeners can use ae.editable.getContents() to get the current
+        // cleaned (i.e. WYSIWYG-supporting mark-up removed) contents.
+        $editable.trigger('aloha-content-changed', [$alohaEditable, ae]);
       }
     });
   },
@@ -121,13 +113,8 @@ Drupal.aloha = {
    *   The editable on which Aloha Editor should be activated.
    */
   activate: function ($editable) {
-    var id = $editable.attr('id');
-
-    // If the original editable is a textarea, Aloha Editor will automatically
-    // have created a <div class="aloha-textarea" /> for it.
-    if ($editable.is('textarea')) {
-      id = $editable.parent().find('.aloha-textarea').attr('id');
-    }
+    var $alohaEditable = Drupal.aloha._getAlohaEditable($editable);
+    var id = $alohaEditable.attr('id');
 
     Aloha.getEditableById(id).activate();
     // This hack will trigger the floating menu to appear *immediately*.
@@ -142,13 +129,127 @@ Drupal.aloha = {
    *   cause Aloha Editor's additional mark-up to be cleaned up.
    */
   detach: function ($editable) {
-    var id = $editable.attr('id');
+    if (!$editable.hasClass('aloha-attached')) {
+      return false;
+    }
+
+    var $alohaEditable = Drupal.aloha._getAlohaEditable($editable);
+    var id = $alohaEditable.attr('id');
 
     Aloha.jQuery('#' + id)
       .unbind('aloha-smart-content-changed.aloha')
       .mahalo();
-    if (id.match(/^aloha-\d+$/) !== null) {
+
+    Drupal.aloha._restoreNonFormElement($editable);
+    Drupal.aloha._restoreID($editable);
+
+    $editable.removeClass('aloha-attached');
+  },
+
+  /**
+   * Remove any previous format classes and set the one for the current format.
+   *
+   * @param $alohaEditable
+   *   The "Aloha" editable, typically a <div>, possibly a temporary one because
+   *   the "original" editable is a <textarea>.
+   * @param formatClassName
+   *   The class name for the current format.
+   */
+  _setFormatClass: function($alohaEditable, formatClassName) {
+    var formats = Drupal.settings.aloha.formats;
+    for (var format in formats) {
+      if (formats.hasOwnProperty(format)) {
+        $alohaEditable.removeClass(formats[format].className);
+      }
+    }
+
+    if (typeof formatClassName !== 'undefined') {
+      $alohaEditable.addClass(formatClassName);
+    }
+  },
+
+  /**
+   * If no ID is set on this editable, then generate one.
+   *
+   * @param $editable
+   *   The "original" editable, typically a <div> or a <textarea>.
+   */
+  _ensureID: function ($editable) {
+    var id = $editable.attr('id');
+    if (typeof id === 'undefined' || id === '') {
+      id = 'aloha-' + new Date().getTime();
+      $editable.attr('id', id);
+    }
+  },
+
+  /**
+   * If no ID was set on this editable, remove it again.
+   *
+   * @param $editable
+   *   The "original" editable, typically a <div> or a <textarea>.
+   */
+  _restoreID: function ($editable) {
+    if ($editable.attr('id').match(/^aloha-\d+$/) !== null) {
       $editable.removeAttr('id');
+    }
+  },
+
+  /**
+   * Ensure a non-form DOM element is available for Aloha Editor to be attached
+   * to. Aloha Editor can generate this for us, but if we manage it ourselves,
+   * we can control how it behaves.
+   *
+   * @param $editable
+   *   The "original" editable, typically a <div> or a <textarea>.
+   */
+  _ensureNonFormElement: function ($editable) {
+    if ($editable.is('textarea')) {
+      // Create a div alongside the textarea.
+      var $div = $('<div class="drupal-aloha-textarea aloha-textarea" />')
+        .attr('id', $editable.attr('id') + '-aloha')
+        .insertAfter($editable);
+
+      // Populate the div with the value of the textarea and hide the textarea.
+      $div
+        .css('height', $editable.height())
+        .html($editable.val());
+      $editable.hide();
+    }
+  },
+
+  /**
+   * Remove the <div> we created in _ensureNonFormElement() and move its value
+   * into the original <textarea> again.
+   *
+   * @param $editable
+   *   The "original" editable, typically a <div> or a <textarea>.
+   */
+  _restoreNonFormElement: function ($editable) {
+    // If the original editable is a textarea, we will have created a
+    // <div class="aloha-textarea" /> for it.
+    if ($editable.is('textarea')) {
+      var $div = $('#' + $editable.attr('id') + '-aloha');
+      $editable.val($div.html());
+      $div.remove();
+      $editable.show();
+    }
+  },
+
+  /**
+   * Get the "Aloha editable", the DOM element to which Aloha Editor should be
+   * attached. If $editable is a <textarea>, a generated <div> will be used
+   * instead of the <textarea>. Otherwise, $editable itself will be returned.
+   *
+   * @param $editable
+   *   The "original" editable, typically a <div> or a <textarea>.
+   */
+  _getAlohaEditable: function ($editable) {
+    if ($editable.is('textarea')) {
+      var id = $editable.attr('id') + '-aloha';
+      return $('#' + id);
+    }
+    else {
+      return $editable;
     }
   }
 };
@@ -157,4 +258,4 @@ Drupal.aloha = {
 // then immediately initialize Aloha Editor.
 $(function () { Drupal.aloha.init(); });
 
-})(jQuery, Drupal, Aloha, this, this.document);
+})(jQuery, Drupal, Aloha);
